@@ -22,13 +22,13 @@ Users, Vehicles, Brands, Models, Years, Mileage, Price, Vehicle Condition, Trans
 ### Actions
 Register, Log in, Post, Search, Filter, Communicate, Record, Protect
 
-### UML
+## UML
 ![截屏2023-10-29 下午8 32 47](https://github.com/Gloaming02/Used-Car-Trading-System/assets/91642985/78c66fe3-6419-4992-a5a7-c68e8324a002)  
 
-### ERD
+## ERD
 ![截屏2023-10-29 下午8 58 38](https://github.com/Gloaming02/Used-Car-Trading-System/assets/91642985/078c6c36-4cce-41b4-8526-0fd6ba3ae7e9)  
 
-### Relational schema
+## Relational schema
 Customer(**customer_id**, username, password, email, phone)  
 Save(*customer_id*, *car_id*)  
 Car(**car_id**, make, model, year, price, mileage, reportUrl, location)  
