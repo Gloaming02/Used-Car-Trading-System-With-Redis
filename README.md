@@ -40,3 +40,8 @@ The Used Car Trading System is an online platform designed to facilitate the buy
 
 ### UML
 ![截屏2023-10-29 下午8 32 47](https://github.com/Gloaming02/Used-Car-Trading-System/assets/91642985/78c66fe3-6419-4992-a5a7-c68e8324a002)
+
+### ERD
+![截屏2023-10-29 下午8 58 38](https://github.com/Gloaming02/Used-Car-Trading-System/assets/91642985/078c6c36-4cce-41b4-8526-0fd6ba3ae7e9)
+
+
