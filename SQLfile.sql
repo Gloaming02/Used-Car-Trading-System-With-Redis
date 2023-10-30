@@ -7,14 +7,6 @@ CREATE TABLE Customer (
     phone INTEGER NOT NULL
 );
 
-DROP TABLE IF EXISTS Mark;
-CREATE TABLE Mark (
-    customer_id INTEGER NOT NULL,
-    car_id INTEGER NOT NULL,
-    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
-    FOREIGN KEY (car_id) REFERENCES Car(car_id)
-);
-
 DROP TABLE IF EXISTS Car;
 CREATE TABLE Car (
     car_id INTEGER PRIMARY KEY,
@@ -27,6 +19,14 @@ CREATE TABLE Car (
     location TEXT NOT NULL,
     seller_id INTEGER NOT NULL,
     FOREIGN KEY (seller_id) REFERENCES Seller(seller_id)
+);
+
+DROP TABLE IF EXISTS Mark;
+CREATE TABLE Mark (
+    customer_id INTEGER NOT NULL,
+    car_id INTEGER NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
+    FOREIGN KEY (car_id) REFERENCES Car(car_id)
 );
 
 DROP TABLE IF EXISTS Appointment;
