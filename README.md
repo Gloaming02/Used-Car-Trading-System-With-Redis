@@ -26,7 +26,7 @@ Register, Log in, Post, Search, Filter, Communicate, Record, Protect
 ![截屏2023-10-29 下午8 32 47](https://github.com/Gloaming02/Used-Car-Trading-System/assets/91642985/78c66fe3-6419-4992-a5a7-c68e8324a002)  
 
 ## ERD
-https://lucid.app/lucidchart/77ec093c-ca73-4b17-a061-a19774987c2e/edit?viewport_loc=-1656%2C-648%2C1619%2C994%2C0_0&invitationId=inv_51ce550c-0bb5-4d1a-94fa-e162f91aa9f5
+https://lucid.app/lucidchart/77ec093c-ca73-4b17-a061-a19774987c2e/edit?viewport_loc=-1656%2C-648%2C1619%2C994%2C0_0&invitationId=inv_51ce550c-0bb5-4d1a-94fa-e162f91aa9f5。
 ![截屏2023-10-29 下午8 58 38](https://github.com/Gloaming02/Used-Car-Trading-System/assets/91642985/078c6c36-4cce-41b4-8526-0fd6ba3ae7e9)  
 
 ## Relational schema
