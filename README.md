@@ -35,20 +35,20 @@ Car(**car_id**, make, model, year, price, mileage, reportUrl, location)
 Appointment(**appointment_id**, year, month, day, clock)  
 Seller(**seller_id**, username, password, email, phone)  
 
-Customer:
-customer_id → username, password, email, phone
-Save:
-customer_id, car_id → {customer_id, car_id}
-Car:
-car_id → make, model, year, price, mileage, reportUrl, location
-Appointment:
-appointment_id → year, month, day, clock
-Seller:
-seller_id → username, password, email, phone
+Customer:  
+customer_id → username, password, email, phone  
+Save:  
+customer_id, car_id → {customer_id, car_id}  
+Car:  
+car_id → make, model, year, price, mileage, reportUrl, location  
+Appointment:  
+appointment_id → year, month, day, clock  
+Seller:  
+seller_id → username, password, email, phone  
 
-candidate keys:
-Customer table: {customer_id}
-Save table: {customer_id, car_id}
-Car table: {car_id}
-Appointment table: {appointment_id}
-Seller table: {seller_id}
+candidate keys:  
+Customer table: {customer_id}  
+Save table: {customer_id, car_id}  
+Car table: {car_id}  
+Appointment table: {appointment_id}  
+Seller table: {seller_id}  
