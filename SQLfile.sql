@@ -7,8 +7,8 @@ CREATE TABLE Customer (
     phone INTEGER NOT NULL
 );
 
-DROP TABLE IF EXISTS Save;
-CREATE TABLE Save (
+DROP TABLE IF EXISTS Mark;
+CREATE TABLE Mark (
     customer_id INTEGER NOT NULL,
     car_id INTEGER NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
