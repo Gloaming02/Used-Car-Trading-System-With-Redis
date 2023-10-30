@@ -17,26 +17,10 @@ The Used Car Trading System is an online platform designed to facilitate the buy
 
 ## Possible Nouns and Actions
 ### Nouns
-- Users
-- Vehicles
-- Brands
-- Models
-- Years
-- Mileage
-
-- Price
-- Vehicle Condition
-- Transaction Records
+Users, Vehicles, Brands, Models, Years, Mileage, Price, Vehicle Condition, Transaction Records
 
 ### Actions
-- Register
-- Log in
-- Post
-- Search
-- Filter
-- Communicate
-- Record
-- Protect
+Register, Log in, Post, Search, Filter, Communicate, Record, Protect
 
 ### UML
 ![截屏2023-10-29 下午8 32 47](https://github.com/Gloaming02/Used-Car-Trading-System/assets/91642985/78c66fe3-6419-4992-a5a7-c68e8324a002)  
