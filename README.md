@@ -5,7 +5,7 @@ This project is a trading system aimed at providing a convenient platform for bo
 
 # Project Requirements Document
 
-## Rules of the Database in the Problem Domain Language:
+## Database Rules:
 
 1. The system allows users to search for available used cars based on specific criteria, including car make, model, year, price, maximum mileage, location, and seller ID.
 2. Users can mark cars they like for future reference and management.
@@ -16,7 +16,7 @@ This project is a trading system aimed at providing a convenient platform for bo
 7. Usernames must be unique within the system, with no duplicate usernames allowed.
 8. Customers can make appointments to test drive their preferred cars and provide necessary information during the booking process.
 
-## List of Business Rules:
+## Business Rules:
 
 1. Users can buy and sell used cars through the system.
 2. Users must register and log in to the system to perform specific actions.
