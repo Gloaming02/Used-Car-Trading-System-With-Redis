@@ -1,35 +1,3 @@
-DROP TABLE IF EXISTS Customer;
-CREATE TABLE Customer (
-    customer_id INTEGER PRIMARY KEY,
-    username TEXT NOT NULL,
-    password TEXT NOT NULL,
-    email TEXT NOT NULL,
-    phone INTEGER NOT NULL
-);
-
-DROP TABLE IF EXISTS Car;
-CREATE TABLE Car (
-    car_id INTEGER PRIMARY KEY,
-    make TEXT NOT NULL,
-    model TEXT NOT NULL,
-    year TEXT NOT NULL,
-    price REAL NOT NULL,
-    mileage TEXT NOT NULL,
-    reportUrl TEXT NOT NULL,
-    location TEXT NOT NULL,
-    seller_id INTEGER NOT NULL,
-    FOREIGN KEY (seller_id) REFERENCES Seller(seller_id)
-);
-
-DROP TABLE IF EXISTS Mark;
-CREATE TABLE Mark (
-    customer_id INTEGER NOT NULL,
-    car_id INTEGER NOT NULL,
-    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
-    FOREIGN KEY (car_id) REFERENCES Car(car_id)
-);
-
-DROP TABLE IF EXISTS Appointment;
 CREATE TABLE Appointment (
     appointment_id INTEGER PRIMARY KEY,
     date DATE NOT NULL,
@@ -39,13 +7,44 @@ CREATE TABLE Appointment (
     FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
     FOREIGN KEY (seller_id) REFERENCES Seller(seller_id),
     FOREIGN KEY (car_id) REFERENCES Car(car_id)
-);
+)
 
-DROP TABLE IF EXISTS Seller;
-CREATE TABLE Seller (
-    seller_id INTEGER PRIMARY KEY,
-    username TEXT NOT NULL,
-    password TEXT NOT NULL,
-    email TEXT NOT NULL,
-    phone INTEGER NOT NULL
-);
+CREATE TABLE "Car" (
+	"car_id"	INTEGER,
+	"make"	TEXT NOT NULL,
+	"model"	TEXT NOT NULL,
+	"year"	INTEGER NOT NULL,
+	"price"	REAL NOT NULL,
+	"mileage"	INTEGER NOT NULL,
+	"reportUrl"	TEXT NOT NULL,
+	"location"	TEXT NOT NULL,
+	"seller_id"	INTEGER NOT NULL,
+	PRIMARY KEY("car_id"),
+	FOREIGN KEY("seller_id") REFERENCES "Seller"("seller_id")
+)
+
+CREATE TABLE "Customer" (
+	"customer_id"	INTEGER,
+	"username"	TEXT NOT NULL UNIQUE,
+	"password"	TEXT NOT NULL,
+	"email"	TEXT NOT NULL,
+	"phone"	INTEGER NOT NULL,
+	PRIMARY KEY("customer_id")
+)
+
+CREATE TABLE Mark (
+    customer_id INTEGER NOT NULL,
+    car_id INTEGER NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
+    FOREIGN KEY (car_id) REFERENCES Car(car_id)
+)
+
+CREATE TABLE "Seller" (
+	"seller_id"	INTEGER,
+	"username"	TEXT NOT NULL UNIQUE,
+	"password"	TEXT NOT NULL,
+	"email"	TEXT NOT NULL,
+	"phone"	TEXT NOT NULL,
+	"ssn"	INTEGER NOT NULL,
+	PRIMARY KEY("seller_id")
+)
