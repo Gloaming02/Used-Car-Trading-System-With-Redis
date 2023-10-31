@@ -127,7 +127,7 @@ async function insertUser(username, password, email, phone, userType, ssn) {
       query += ` AND seller_id = ?`;
       params.push(seller_id);
     }
-  
+    console.log(query, params)
     const cars = await db.all(query, params);
   
     return cars;
