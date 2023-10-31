@@ -15,6 +15,8 @@ This project is a trading system aimed at providing a convenient platform for bo
 6. Users must specify whether they are a seller or a customer during the registration process, with sellers needing to provide their Social Security Number (SSN).
 7. Usernames must be unique within the system, with no duplicate usernames allowed.
 8. Customers can make appointments to test drive their preferred cars and provide necessary information during the booking process.
+9. A user cannot mark a car twice.
+10. A car cannot be appointed on the same date.
 
 ## Business Rules:
 
