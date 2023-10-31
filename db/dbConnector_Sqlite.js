@@ -67,8 +67,8 @@ async function insertUser(username, password, email, phone, userType, ssn) {
     console.log(customer_id, seller_id, car_id, date);
     const db = await connect();
 
-    await db.run('INSERT INTO Appointment (customer_id, seller_id, date, car_id) VALUES (?, ?, ?, ?)',
-      [customer_id, seller_id, date, car_id]);
+    await db.run('INSERT INTO Appointment (customer_id, date, car_id) VALUES (?, ?, ?)',
+      [customer_id, date, car_id]);
   }
 
   async function insertCar(make, model, year, price, mileage, reportUrl, location, sellerId) {
@@ -166,6 +166,18 @@ async function getMarkedCarsByUser(userId) {
 }
 
 
+async function getAppointmentByUser(userId) {
+  const db = await connect(); // connect() 函数用于连接到数据库
+  const query = `
+      SELECT Car.car_id, Appointment.date, Car.make, Car.model, Car.year, Car.price, Car.mileage, Car.reportUrl, Car.location, Seller.username as sellerUsername
+      FROM Appointment
+      INNER JOIN Car ON Appointment.car_id = Car.car_id
+      INNER JOIN Seller ON Car.seller_id = Seller.seller_id
+      WHERE Appointment.customer_id = ?`;
+  const markedCars = await db.all(query, [userId]);
+  return markedCars;
+}
+
 module.exports = {
     getCars,
     getCustomerByUsername,
@@ -178,7 +190,8 @@ module.exports = {
     searchCarsByCriteria,
     markCarInDatabase,
     removeMarkFromDatabase,
-    getMarkedCarsByUser
+    getMarkedCarsByUser,
+    getAppointmentByUser
 };
 
 

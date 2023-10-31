@@ -53,19 +53,25 @@
   </nav>
 
   <div class="container">
-      <h1>Marked Cars</h1>
-      <% markedCars.forEach(function(car) { %>
-          <div class="car-container">
-              <h5 style="margin-bottom: 20px;"><%= car.make %> <%= car.model %></h5>
-              <p class="car-attribute"><strong>Car ID:</strong> <%= car.car_id %></p>
-              <!-- Add other car attributes here -->
-              <form action="/unmarkcar" method="POST">
-                  <input type="hidden" name="car_id" value="<%= car.car_id %>">
-                  <button type="submit" class="btn btn-danger">Remove Mark</button>
-              </form>
-          </div>
-      <% }); %>
-  </div>
+    <div class="row">
+        <% appointmentCars.forEach(function(car) { %>
+        <div class="col-md-6">
+            <div class="car-container">
+                <h5 style="margin-bottom: 20px;"><%= car.date %></h5>
+                <h5 style="margin-bottom: 18px;"><%= car.make %> <%= car.model %></h5>
+                <p class="car-attribute"><strong>Car ID:</strong> <%= car.car_id %></p>
+                <p class="car-attribute"><strong>Year:</strong> <%= car.year %></p>
+                <p class="car-attribute"><strong>Price:</strong> $<%= car.price %></p>
+                <p class="car-attribute"><strong>Mileage:</strong> <%= car.mileage %> miles</p>
+                <p class="car-attribute"><strong>Report URL:</strong> <a href="<%= car.reportUrl %>">View Report</a></p>
+                <p class="car-attribute"><strong>Location:</strong> <%= car.location %></p>
+                <p class="car-attribute"><strong>Meet with:</strong> <%= car.sellerUsername %></p>
+
+              </div>
+        </div>
+        <% }); %>
+    </div>
+</div>
 
   <footer style="margin-top: 20px;">
       <div class="container">Made by Zhengyan Hu with 💪🏼</div>

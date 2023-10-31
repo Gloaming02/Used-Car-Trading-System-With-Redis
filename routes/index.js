@@ -4,7 +4,8 @@ let router = express.Router();
 const { getCars, insertUser, insertCar, 
   getCarsById, deleteCar, makeAppoinment,
   searchCarsByCriteria, markCarInDatabase,
-  removeMarkFromDatabase, getMarkedCarsByUser} = require("../db/dbConnector_Sqlite.js");
+  removeMarkFromDatabase, getMarkedCarsByUser,
+  getAppointmentByUser} = require("../db/dbConnector_Sqlite.js");
 
 /* GET home page. */
 /* GET home page. */
@@ -224,11 +225,22 @@ router.get('/markedcars', async function(req, res, next) {
   if (!checkIfUserLoggedIn(req)) {
     return res.redirect('/login');
   }
-
-  const markedCars = await getMarkedCarsByUser(req.session.userId); // 请确保实现该函数
+  const markedCars = await getMarkedCarsByUser(req.session.userId); 
   const isUserLoggedIn = checkIfUserLoggedIn(req);
   res.render('markedcars', { title: 'Marked Cars', markedCars, isUserLoggedIn });
 });
+
+/* GET view appointment cars page. */
+router.get('/viewappointment', async function(req, res, next) {
+  if (!checkIfUserLoggedIn(req)) {
+    return res.redirect('/login');
+  }
+  const appointmentCars = await getAppointmentByUser(req.session.userId); 
+  const isUserLoggedIn = checkIfUserLoggedIn(req);
+  console.log(appointmentCars);
+  res.render('viewappointment', { title: 'View appointment', appointmentCars, isUserLoggedIn });
+});
+
 
 router.post('/unmarkcar', async (req, res) => {
   const { car_id } = req.body;

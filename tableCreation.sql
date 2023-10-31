@@ -1,13 +1,10 @@
 CREATE TABLE Appointment (
-    appointment_id INTEGER,
     date DATE NOT NULL,
     customer_id INTEGER NOT NULL,
-    seller_id INTEGER NOT NULL,
     car_id INTEGER NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
-    FOREIGN KEY (seller_id) REFERENCES Seller(seller_id),
     FOREIGN KEY (car_id) REFERENCES Car(car_id),
-    PRIMARY KEY("appointment_id","car_id","date")
+    PRIMARY KEY("car_id","date")
 )
 
 CREATE TABLE "Car" (
