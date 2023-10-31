@@ -103,20 +103,21 @@ router.post('/register', async function(req, res, next) {
     if (userType === 'seller') {
       await insertUser(username, password, email, phone, userType, ssn);
     } else {
-      await insertUser(username, password, email, phone, userType, null); // 或者将 ssn 设置为空字符串 ''
+      await insertUser(username, password, email, phone, userType, null);
     }
+    const errorMessage = '';
+    res.send(
+      '<script>' +
+      'alert("Registration successful. Please log in.");' +
+      'window.location.href = "/login";' +
+      '</script>'
+    );
   } catch (error) {
     const errorMessage = 'User already exists. Please choose a different username.';
     return res.render('register', { title: 'Register', errorMessage: errorMessage });
   }
-
-  res.send(
-    '<script>' +
-    'alert("Registration successful. Please log in.");' +
-    'window.location.href = "/login";' +
-    '</script>'
-  );
 });
+
 
 /* GET postcar page. */
 router.get('/postcar', function(req, res, next) {

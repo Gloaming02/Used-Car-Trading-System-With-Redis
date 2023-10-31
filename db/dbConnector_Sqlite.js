@@ -39,6 +39,7 @@ async function getSellerByUsername(username) {
 
 
 async function insertUser(username, password, email, phone, userType, ssn) {
+    console.log(username, password, email, phone, userType, ssn);
     const db = await connect();
     let existingUser;
     if (userType === 'seller') {
@@ -48,13 +49,17 @@ async function insertUser(username, password, email, phone, userType, ssn) {
     }
 
     if (existingUser) {
+        console.log('no');
         throw new Error('User already exists');
     }
 
     if (userType === 'seller') {
       await db.run('INSERT INTO Seller (username, password, email, phone, ssn) VALUES (?, ?, ?, ?, ?)', [username, password, email, phone, ssn]);
+      console.log('yes1');
     } else {
       await db.run('INSERT INTO Customer (username, password, email, phone) VALUES (?, ?, ?, ?)', [username, password, email, phone]);
+      console.log('yes2');
+
     }
   }
 
