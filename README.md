@@ -1,12 +1,12 @@
 # Used Car Trading System
 
 ## How to Start
-npm install
-npm start
+npm install  
+npm start  
 
 ## Login Account for Test
-username: admin
-password: admin
+username: admin  
+password: admin  
 
 ## Description
 This project is a trading system aimed at providing a convenient platform for both sellers and buyers to trade used vehicles. The system allows users to search for cars that meet their specific criteria and provides features for marking favorite cars, managing marked vehicles, and scheduling test drives. Sellers can easily post their vehicle information and manage their listings. Users can perform specific actions through registration and login, and the system ensures the uniqueness of usernames and the integrity of necessary information.
