@@ -1,19 +1,179 @@
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./db/UsedCarSystem.db');
+const sqlite3 = require("sqlite3").verbose();
 const { open } = require("sqlite");
 
-db.serialize(() => {
-    db.run("CREATE TABLE lorem (info TEXT)");
+async function connect() {
+  return open({
+    filename: "./db/UsedCarSystem.db",
+    driver: sqlite3.Database,
+  });
+}
 
-    const stmt = db.prepare("INSERT INTO lorem VALUES (?)");
-    for (let i = 0; i < 10; i++) {
-        stmt.run("Ipsum " + i);
+async function getCars() {
+  const db = await connect();
+  const cars =
+    await db.all(`SELECT *
+    FROM  Car
+    ORDER BY car_id
+    LIMIT 20;
+    `);
+
+  console.log("dbConnector got data", cars.length);
+
+  return cars;
+}
+
+async function getCustomerByUsername(username) {
+    const db = await connect();
+    const user = await db.get(`SELECT * FROM Customer WHERE username = ?`, [username]);
+    console.log(username);
+
+    return user;
+}
+
+async function getSellerByUsername(username) {
+    const db = await connect();
+    const user = await db.get(`SELECT * FROM Seller WHERE username = ?`, [username]);
+    console.log('User from database:', user); 
+    return user;
+}
+
+
+async function insertUser(username, password, email, phone, userType, ssn) {
+    const db = await connect();
+    let existingUser;
+    if (userType === 'seller') {
+        existingUser = await db.get('SELECT * FROM Seller WHERE username = ?', [username]);
+    } else {
+        existingUser = await db.get('SELECT * FROM Customer WHERE username = ?', [username]);
     }
-    stmt.finalize();
 
-    db.each("SELECT rowid AS id, info FROM lorem", (err, row) => {
-        console.log(row.id + ": " + row.info);
-    });
-});
+    if (existingUser) {
+        throw new Error('User already exists');
+    }
 
-db.close();
+    if (userType === 'seller') {
+      await db.run('INSERT INTO Seller (username, password, email, phone, ssn) VALUES (?, ?, ?, ?, ?)', [username, password, email, phone, ssn]);
+    } else {
+      await db.run('INSERT INTO Customer (username, password, email, phone) VALUES (?, ?, ?, ?)', [username, password, email, phone]);
+    }
+  }
+
+  async function makeAppoinment(customer_id, seller_id, car_id, date) {
+    console.log(customer_id, seller_id, car_id, date);
+    const db = await connect();
+
+    await db.run('INSERT INTO Appointment (customer_id, seller_id, date, car_id) VALUES (?, ?, ?, ?)',
+      [customer_id, seller_id, date, car_id]);
+  }
+
+  async function insertCar(make, model, year, price, mileage, reportUrl, location, sellerId) {
+    console.log('INSERT INTO Car (make, model, year, price, mileage, reportUrl, location, seller_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        [make, model, year, price, mileage, reportUrl, location, sellerId]);
+    const db = await connect();
+    await db.run('INSERT INTO Car (make, model, year, price, mileage, reportUrl, location, seller_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [make, model, year, price, mileage, reportUrl, location, sellerId]);
+  }
+
+  async function getCarsById(sellerId) {
+    console.log(sellerId);
+    const db = await connect();
+    const cars = await db.all(`SELECT * FROM Car WHERE seller_id = ?`, [sellerId]);
+    console.log(cars);
+    return cars;
+  }
+
+  async function deleteCar(car_id) {
+    console.log(car_id);
+    const db = await connect();
+    await db.run('DELETE FROM Car WHERE car_id = ?', [car_id]);      
+  }
+
+  async function searchCarsByCriteria(make, model, year, price, mileage, location, seller_id) {
+    const db = await connect();
+    let query = `SELECT * FROM Car WHERE 1=1`;
+    const params = [];
+  
+    if (make) {
+      query += ` AND make = ?`;
+      params.push(make);
+    }
+  
+    if (model) {
+      query += ` AND model = ?`;
+      params.push(model);
+    }
+  
+    if (year) {
+      query += ` AND year = ?`;
+      params.push(year);
+    }
+  
+    if (price) {
+      query += ` AND price <= ?`;
+      params.push(price);
+    }
+  
+    if (mileage) {
+      query += ` AND mileage <= ?`;
+      params.push(mileage);
+    }
+  
+    if (location) {
+      query += ` AND location = ?`;
+      params.push(location);
+    }
+  
+    if (seller_id) {
+      query += ` AND seller_id = ?`;
+      params.push(seller_id);
+    }
+  
+    const cars = await db.all(query, params);
+  
+    return cars;
+  }
+
+
+  async function markCarInDatabase(customer_id, car_id) {
+    console.log(customer_id);
+    console.log(car_id);
+
+    const db = await connect();
+    const existingMark = await db.get('SELECT * FROM Mark WHERE customer_id = ? AND car_id = ?', [customer_id, car_id]);
+
+    if (existingMark) {
+      throw new Error('Mark for this car already exists.');
+    }
+
+    await db.run('INSERT INTO Mark (customer_id, car_id) VALUES (?, ?)', [customer_id, car_id]);
+  }
+  
+
+async function removeMarkFromDatabase(customer_id, car_id) {
+  const db = await connect();
+  await db.run('DELETE FROM Mark WHERE customer_id = ? AND car_id = ?', [customer_id, car_id]);
+}
+
+async function getMarkedCarsByUser(userId) {
+  const db = await connect();
+  const markedCars = await db.all('SELECT * FROM Car INNER JOIN Mark ON Car.car_id = Mark.car_id WHERE Mark.customer_id = ?', [userId]);
+  return markedCars;
+}
+
+
+module.exports = {
+    getCars,
+    getCustomerByUsername,
+    getSellerByUsername,
+    insertUser,
+    insertCar,
+    getCarsById,
+    deleteCar,
+    makeAppoinment,
+    searchCarsByCriteria,
+    markCarInDatabase,
+    removeMarkFromDatabase,
+    getMarkedCarsByUser
+};
+
+

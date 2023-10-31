@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 400px;
+            padding: 40px;
+            border: 1px solid #e3e3e3;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .btn-postcar {
+            width: 100%;
+        }
+        .btn-postcar {
+        width: 100%;
+        }
+
+        .btn-logout {
+            width: 100%;
+            margin-top: 10px;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-logout:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+        .alert {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2 style="text-align: center;">Post a Car</h2>
+        <% if(errorMessage) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= errorMessage %>
+            </div>
+        <% } %>
+        <form method="post" action="/postcar">
+            <div class="form-group">
+                <label for="make" class="form-label">Make</label>
+                <input type="text" class="form-control" id="make" name="make" required>
+            </div>
+            <div class="form-group">
+                <label for="model" class="form-label">Model</label>
+                <input type="text" class="form-control" id="model" name="model" required>
+            </div>
+            <div class="form-group">
+                <label for="year" class="form-label">Year</label>
+                <input type="text" class="form-control" id="year" name="year" required>
+            </div>
+            <div class="form-group">
+                <label for="price" class="form-label">Price</label>
+                <input type="text" class="form-control" id="price" name="price" required>
+            </div>
+            <div class="form-group">
+                <label for="mileage" class="form-label">Mileage</label>
+                <input type="text" class="form-control" id="mileage" name="mileage" required>
+            </div>
+            <div class="form-group">
+                <label for="reportUrl" class="form-label">Report URL</label>
+                <input type="text" class="form-control" id="reportUrl" name="reportUrl" required>
+            </div>
+            <div class="form-group">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" class="form-control" id="location" name="location" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-postcar">Post</button>
+            <p> </p>
+            <a href="/logout" class="btn btn-logout">Logout</a>
+            <a href="/managecar" class="btn btn-primary btn-managecar">Manage Car</a>
+        </form>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
