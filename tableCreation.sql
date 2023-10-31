@@ -1,12 +1,13 @@
 CREATE TABLE Appointment (
-    appointment_id INTEGER PRIMARY KEY,
+    appointment_id INTEGER,
     date DATE NOT NULL,
     customer_id INTEGER NOT NULL,
     seller_id INTEGER NOT NULL,
     car_id INTEGER NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
     FOREIGN KEY (seller_id) REFERENCES Seller(seller_id),
-    FOREIGN KEY (car_id) REFERENCES Car(car_id)
+    FOREIGN KEY (car_id) REFERENCES Car(car_id),
+    PRIMARY KEY("appointment_id","car_id","date")
 )
 
 CREATE TABLE "Car" (
@@ -36,7 +37,8 @@ CREATE TABLE Mark (
     customer_id INTEGER NOT NULL,
     car_id INTEGER NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
-    FOREIGN KEY (car_id) REFERENCES Car(car_id)
+    FOREIGN KEY (car_id) REFERENCES Car(car_id),
+    PRIMARY KEY("customer_id","car_id")
 )
 
 CREATE TABLE "Seller" (
