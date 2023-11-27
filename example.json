@@ -1,0 +1,54 @@
+//example for seller
+{
+    "_id": ObjectId("seller1"),
+    "username": "john_doe",
+    "password": "hashed_password",
+    "email": "john.doe@example.com",
+    "phone": "1234567890",
+    "ssn": "123-45-6789",
+    "cars": [
+      {
+        "_id": ObjectId("car1"),
+        "make": "Toyota",
+        "model": "Camry",
+        "year": 2019,
+        "price": 20000.00,
+        "mileage": 30000,
+        "reportUrl": "http://example.com/report",
+        "location": "City"
+      },
+      // can have more car object
+    ],
+    "appointments": [
+      {
+        "_id": ObjectId("appointment1"),
+        "customer_id": ObjectId("customer1"),
+        "appointment_date": ISODate("2023-12-01")
+      },
+      // can have more appointments object
+    ]
+} 
+
+//example for seller
+{
+    "_id": ObjectId("customer1"),
+    "username": "john_doe",
+    "password": "hashed_password",
+    "email": "john.doe@example.com",
+    "phone": "1234567890",
+    "marked_cars": [
+        {
+        "car_id": ObjectId("car1")
+        },
+        // 可以包含更多标记的车辆信息
+    ],
+    "appointments": [
+        {
+        "_id": ObjectId("appointment1"),
+        "seller_id": ObjectId("seller1"),
+        "appointment_date": ISODate("2023-12-01T10:00:00Z")
+        },
+        // 可以包含更多预约信息
+    ]
+}
+  
