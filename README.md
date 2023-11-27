@@ -1,4 +1,4 @@
-# Used Car Trading System
+# Used Car Trading System with MongDB
 
 ## How to Start
 npm install  
@@ -8,9 +8,8 @@ npm start
 username: admin  
 password: admin  
 
-## Description
-The project is a second-hand trading system designed to provide a method for customers and sellers of cars to connect with each other. The system allows customers to search for cars based on their preferences such as make, model, year, price, maximum mileage, location, and seller Information. Customers can mark cars they like and view all their marked cars on a single page. Sellers can post their cars on the system and can view all their posted cars on a single page. Sellers can also choose to delete a posted car if they no longer wish to sell it or need to make modifications. The system includes a registration system that prompts users to specify whether they want to register as a seller or a customer. Sellers are required to provide their Social Security Number (SSN). Usernames must be unique among customers and sellers. Customers can make an appointment for test drives for cars they are interested in. Scheduling a test drive involves selecting a time slot and requires logging in.
-
+## Description  
+Ghis project will modify the database from my previous project (https://github.com/Gloaming02/Used-Car-Trading-System) to a document based database (Mongo).
 
 ## UML
 ![Project 1 UML](https://github.com/Gloaming02/Used-Car-Trading-System/assets/91642985/ba438bc9-706d-4e35-960d-4a3c50cd24be)
