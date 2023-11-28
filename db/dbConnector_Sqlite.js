@@ -167,7 +167,7 @@ async function getMarkedCarsByUser(userId) {
 
 
 async function getAppointmentByUser(userId) {
-  const db = await connect(); // connect() 函数用于连接到数据库
+  const db = await connect(); 
   const query = `
       SELECT Car.car_id, Appointment.date, Car.make, Car.model, Car.year, Car.price, Car.mileage, Car.reportUrl, Car.location, Seller.username as sellerUsername
       FROM Appointment

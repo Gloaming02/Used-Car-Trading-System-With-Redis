@@ -2,10 +2,10 @@ let express = require('express');
 let router = express.Router();
 
 const { getCars, insertUser, insertCar, 
-  getCarsById, deleteCar, makeAppoinment,
+  getCarsById, deleteCar, makeAppointment,
   searchCarsByCriteria, markCarInDatabase,
   removeMarkFromDatabase, getMarkedCarsByUser,
-  getAppointmentByUser} = require("../db/dbConnector_Sqlite.js");
+  getAppointmentByUser} = require("../db/dbConnector_MongoDb.js");
 
 /* GET home page. */
 /* GET home page. */
@@ -39,6 +39,7 @@ router.get('/', async function(req, res, next) {
     cars = await getCars();
   }
   const isUserLoggedIn = checkIfUserLoggedIn(req);
+  console.log(cars);
   res.render("index", { title: "Used Car Trading System", cars, isUserLoggedIn });
 });
 
@@ -52,26 +53,26 @@ router.get('/appointment', function(req, res, next) {
   }
 
   const errorMessage = '';
-  const carId = req.query.car_id; // Assuming you pass the car_id as a query parameter
-  const sellerId = req.query.seller_id; // Assuming you pass the seller_id as a query parameter
-  const customerId = req.session.userId; // 假设你的会话中有 userId
+  const carId = req.query.car_id; 
+  const sellerId = req.query.seller_id; 
+  const customerId = req.session.userId; 
 
   res.render('appointment', { title: 'Make Appointment', errorMessage: errorMessage, carId: carId, sellerId: sellerId, customerId: customerId });
 });
 
 /* POST appointment data. */
 router.post('/appointment', async function(req, res, next) {
-  const { customer_id, seller_id, car_id, date } = req.body; // 将 customer_id 改为 customerId
+  const { customer_id, seller_id, car_id, date } = req.body; 
   console.log(req.body);
 
   try {
-    await makeAppoinment(customer_id, seller_id, car_id, date); // 将 customer_id 改为 customerId
+    await makeAppointment(customer_id, seller_id, car_id, date); 
     res.send(
       '<script>alert("Appointment made successfully!");' +
       'window.location.href="/";</script>'
     );
   } catch (error) {
-    const errorMessage = 'Error making the appointment. Please try again.';
+    const errorMessage = error || 'Customer or seller not available at selected time';
     res.render('appointment', { title: 'Make Appointment', errorMessage: errorMessage, carId: car_id, sellerId: seller_id, customerId: customer_id });
   }
 });

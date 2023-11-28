@@ -1,6 +1,6 @@
 let express = require('express');
 let router = express.Router();
-const { getSellerByUsername, getCustomerByUsername} = require("../db/dbConnector_Sqlite.js");
+const { getSellerByUsername, getCustomerByUsername} = require("../db/dbConnector_MongoDb.js");
 
 /* GET login page. */
 router.get('/', function(req, res, next) {
@@ -19,17 +19,16 @@ router.post('/', async function(req, res, next) {
     }else{
         user = await getCustomerByUsername(username);
     } 
-
     console.log(user);
 
-    if (user && user.password === password) {
+    if (user.length === 1 && user[0].password === password) {
         req.session.user = username; 
         req.session.userType = userType;
         if (userType === 'seller') {
-            req.session.userId = user.seller_id;  
+            req.session.userId = user[0]._id;  
             return res.redirect('/postcar'); 
         } else {
-            req.session.userId = user.customer_id;  
+            req.session.userId = user[0]._id;  
             return res.redirect('/'); 
         }   
     } else {
