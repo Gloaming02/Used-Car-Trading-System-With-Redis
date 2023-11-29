@@ -1,8 +1,7 @@
 # Used Car Trading System with MongDB
 
 ## Initialize the database
-cd db
-mongorestore --uri "mongodb://localhost:27017" --db UsedCarSystem --drop dump/UsedCarSystem
+mongorestore --uri "mongodb://localhost:27017" --db UsedCarSystem --drop db/dump/UsedCarSystem
 
 ## How to Start
 npm install
