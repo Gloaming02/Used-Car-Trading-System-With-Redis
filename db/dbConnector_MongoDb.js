@@ -233,15 +233,15 @@ async function insertUser(username, password, email, phone, userType, ssn) {
         }
 
         const newMark = {
-          _id: new ObjectId(),
           car_id: new ObjectId(car_id),
         };
     
         await db.collection('users').updateOne(
           { _id: new ObjectId(customer_id) },
-          { $push: { marked_cars: newMark } }
+          { $push: { marked_cars: newMark} } 
         );
-        //---------------
+
+        // ---------------
     } catch (e) {
         console.error(e);
         throw e;
@@ -252,8 +252,29 @@ async function insertUser(username, password, email, phone, userType, ssn) {
   
 
 async function removeMarkFromDatabase(customer_id, car_id) {
-  const db = await connect();
-  await db.run('DELETE FROM Mark WHERE customer_id = ? AND car_id = ?', [customer_id, car_id]);
+  const client = new MongoClient(uri);
+  try {
+      await client.connect();
+      const db = client.db('UsedCarSystem');
+      //---------------
+      const result = await db.collection('users').updateOne(
+        { _id: new ObjectId(customer_id) },
+        { $pull: { 'marked_cars': { car_id: new ObjectId(car_id) } } }
+      );
+  
+      if (result.modifiedCount === 0) {
+        throw new Error('Marked car not found for deletion.');
+      }
+  
+      console.log('Marked car removed successfully.');
+
+      // ---------------
+  } catch (e) {
+      console.error(e);
+      throw e;
+  } finally {
+      await client.close();
+  }   
 }
 
 async function getMarkedCarsByUser(userId) {
@@ -311,49 +332,73 @@ async function getMarkedCarsByUser(userId) {
 }
 
 async function searchCarsByCriteria(make, model, year, price, mileage, location, seller_id) {
-    const db = await connect();
-    let query = `SELECT * FROM Car WHERE 1=1`;
-    const params = [];
-  
+  const client = new MongoClient(uri);
+
+  try {
+    await client.connect();
+    const db = client.db('UsedCarSystem');
+
+    const filter = {};
+
     if (make) {
-      query += ` AND make = ?`;
-      params.push(make);
+      filter['cars.make'] = make;
     }
-  
+    
     if (model) {
-      query += ` AND model = ?`;
-      params.push(model);
+      filter['cars.model'] = model;
     }
-  
+    
     if (year) {
-      query += ` AND year = ?`;
-      params.push(year);
+      filter['cars.year'] = parseInt(year);
     }
-  
+    
     if (price) {
-      query += ` AND price <= ?`;
-      params.push(price);
+      filter['cars.price'] = { $lte: parseFloat(price) };
     }
-  
+    
     if (mileage) {
-      query += ` AND mileage <= ?`;
-      params.push(mileage);
+      filter['cars.mileage'] = { $lte: parseInt(mileage) };
     }
-  
+    
     if (location) {
-      query += ` AND location = ?`;
-      params.push(location);
+      filter['cars.location'] = location;
     }
-  
+
     if (seller_id) {
-      query += ` AND seller_id = ?`;
-      params.push(seller_id);
+      filter._id = new ObjectId(seller_id);
     }
-    console.log(query, params)
-    const cars = await db.all(query, params);
-  
+    console.log(filter);
+    const cars = await db.collection('users').aggregate([
+      {
+        $unwind: '$cars'
+      },
+      {
+        $match: filter
+      },
+      {
+        $project: {
+          _id: '$cars._id',
+          car_id: '$cars._id',
+          make: '$cars.make',
+          model: '$cars.model',
+          year: '$cars.year',
+          price: '$cars.price',
+          mileage: '$cars.mileage',
+          reportUrl: '$cars.reportUrl',
+          location: '$cars.location',
+          seller_id: '$_id' // Assuming 'seller_id' is taken from the user document's _id
+        }
+      }
+    ]).toArray();
+
     return cars;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  } finally {
+    await client.close();
   }
+}
 
 async function getAppointmentByUser(userId) {
     const client = new MongoClient(uri);

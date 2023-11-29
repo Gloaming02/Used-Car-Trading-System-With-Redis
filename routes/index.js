@@ -7,28 +7,6 @@ const { getCars, insertUser, insertCar,
   removeMarkFromDatabase, getMarkedCarsByUser,
   getAppointmentByUser} = require("../db/dbConnector_MongoDb.js");
 
-/* GET home page. */
-/* GET home page. */
-/* GET home page. */
-// router.get('/', async function(req, res, next) {
-//   const cars = await getCars();
-//   const isUserLoggedIn = checkIfUserLoggedIn(req);
-//   console.log("route / called  -  cars.length", cars.length);
-//   res.render("index", { title: "Used Car Trading System  ", cars, isUserLoggedIn }); 
-// });
-
-/* GET home page with search functionality. */
-// router.get('/', async function(req, res, next) {
-//   let cars;
-//   if (req.query.make || req.query.year || req.query.mileage) {
-//     cars = await searchCarsByCriteria(req.query.make, req.query.year, req.query.mileage);
-//   } else {
-//     cars = await getCars();
-//   }
-//   const isUserLoggedIn = checkIfUserLoggedIn(req);
-//   res.render("index", { title: "Used Car Trading System", cars, isUserLoggedIn });
-// });
-
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
@@ -39,7 +17,6 @@ router.get('/', async function(req, res, next) {
     cars = await getCars();
   }
   const isUserLoggedIn = checkIfUserLoggedIn(req);
-  console.log(cars);
   res.render("index", { title: "Used Car Trading System", cars, isUserLoggedIn });
 });
 

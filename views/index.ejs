@@ -128,12 +128,12 @@
                 alert(data.message); 
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error('Error:', error.message);
                 alert('Error marking the car. Please try again.');
             });
     }
     function redirectToIndex() {
-        window.location.href = "/"; // 这里的 "/" 是你的首页 URL，根据你的实际情况进行更改
+        window.location.href = "/"; 
     }
 
 </script>
