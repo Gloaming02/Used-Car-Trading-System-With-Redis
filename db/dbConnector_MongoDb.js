@@ -210,17 +210,44 @@ async function insertUser(username, password, email, phone, userType, ssn) {
   }
 
   async function markCarInDatabase(customer_id, car_id) {
-    console.log(customer_id);
-    console.log(car_id);
+    const client = new MongoClient(uri);
+    try {
+        await client.connect();
+        const db = client.db('UsedCarSystem');
+        //---------------
+        console.log("-----------------------------------------");
+        const existingUser = await db.collection('users').findOne({ _id: new ObjectId(customer_id) });
+        console.log(existingUser);
+        if (!existingUser) {
+          throw new Error('User not found.');
+        }
+    
+        if (!existingUser.marked_cars) {
+          existingUser.marked_cars = [];
+        }
 
-    const db = await connect();
-    const existingMark = await db.get('SELECT * FROM Mark WHERE customer_id = ? AND car_id = ?', [customer_id, car_id]);
+        const existingMark = existingUser.marked_cars.find(mark => mark.car_id.toString() === car_id);
+    
+        if (existingMark) {
+          throw new Error('Mark for this car already exists.');
+        }
 
-    if (existingMark) {
-      throw new Error('Mark for this car already exists.');
-    }
-
-    await db.run('INSERT INTO Mark (customer_id, car_id) VALUES (?, ?)', [customer_id, car_id]);
+        const newMark = {
+          _id: new ObjectId(),
+          car_id: new ObjectId(car_id),
+        };
+    
+        await db.collection('users').updateOne(
+          { _id: new ObjectId(customer_id) },
+          { $push: { marked_cars: newMark } }
+        );
+        //---------------
+    } catch (e) {
+        console.error(e);
+        throw e;
+    } finally {
+        await client.close();
+    }   
   }
   
 
@@ -230,9 +257,57 @@ async function removeMarkFromDatabase(customer_id, car_id) {
 }
 
 async function getMarkedCarsByUser(userId) {
-  const db = await connect();
-  const markedCars = await db.all('SELECT * FROM Car INNER JOIN Mark ON Car.car_id = Mark.car_id WHERE Mark.customer_id = ?', [userId]);
-  return markedCars;
+  const client = new MongoClient(uri);
+
+  try {
+    await client.connect();
+    const db = client.db('UsedCarSystem');
+
+    const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
+
+    if (!user) {
+      throw new Error('User not found.');
+    }
+
+    // Extract car_ids from marked_cars
+    const carIds = user.marked_cars.map(mark => mark.car_id);
+    console.log(carIds);
+
+    const markedCars = await db.collection('users').aggregate([
+      {
+        $match: { 'cars._id': { $in: carIds } }
+      },
+      {
+        $unwind: '$cars'
+      },
+      {
+        $match: { 'cars._id': { $in: carIds } }
+      },
+      {
+        $project: {
+          _id: '$cars._id',
+          car_id: '$cars._id',
+          make: '$cars.make',
+          model: '$cars.model',
+          year: '$cars.year',
+          price: '$cars.price',
+          mileage: '$cars.mileage',
+          reportUrl: '$cars.reportUrl',
+          location: '$cars.location',
+        }
+      }
+    ]).toArray();
+    
+
+    console.log(markedCars);
+
+    return markedCars;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  } finally {
+    await client.close();
+  }
 }
 
 async function searchCarsByCriteria(make, model, year, price, mileage, location, seller_id) {

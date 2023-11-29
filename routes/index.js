@@ -206,6 +206,7 @@ router.post('/markcar', async function(req, res, next) {
         await markCarInDatabase(req.session.userId, carId);
         res.json({ message: 'Car marked successfully!' });
       } catch (error) {
+        console.log(error.message);
         res.status(500).json({ error: 'Error marking the car.' });
       }
     } else {
