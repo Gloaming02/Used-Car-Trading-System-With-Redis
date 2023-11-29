@@ -4,7 +4,7 @@
 mongorestore --uri "mongodb://localhost:27017" --db UsedCarSystem --drop db/dump/UsedCarSystem
 
 ## How to Start
-npm install。
+npm install  
 npm start  
 
 ## Login Account for Test
