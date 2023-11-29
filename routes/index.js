@@ -40,8 +40,6 @@ router.get('/appointment', function(req, res, next) {
 /* POST appointment data. */
 router.post('/appointment', async function(req, res, next) {
   const { customer_id, seller_id, car_id, date } = req.body; 
-  console.log(req.body);
-
   try {
     await makeAppointment(customer_id, seller_id, car_id, date); 
     res.send(
@@ -216,7 +214,6 @@ router.get('/viewappointment', async function(req, res, next) {
   }
   const appointmentCars = await getAppointmentByUser(req.session.userId); 
   const isUserLoggedIn = checkIfUserLoggedIn(req);
-  console.log(appointmentCars);
   res.render('viewappointment', { title: 'View appointment', appointmentCars, isUserLoggedIn });
 });
 

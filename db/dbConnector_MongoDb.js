@@ -478,13 +478,17 @@ async function makeAppointment(customer_id, seller_id, car_id, date) {
         await client.connect();
         const db = client.db('UsedCarSystem');
         //---------------
-        const appointmentCollection = db.collection("appointments");
+      const appointmentCollection = db.collection("appointments");
 
-        const existingAppointment = await appointmentCollection.findOne({ car_id, date });
-    
+        const existingAppointment = await appointmentCollection.findOne(
+          { car_id: new ObjectId(car_id)},
+          {date : date });
+        
+        console.log(car_id);
+        console.log(date);
+
         if (existingAppointment) {
-            console.log("This Car is not available at selected time");
-            return;
+          throw new Error("This Car is not available at selected time");
         }
         
         const appointmentId = new ObjectId();
