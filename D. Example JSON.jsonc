@@ -1,0 +1,96 @@
+[
+  /** 
+  * Seller that with 3 cars
+  * have to contain ssn
+  */
+  {
+    "username": "ehazlewood3",
+    "password": "hM1%c?,J/0A@L+P",
+    "email": "hbolam3@answers.com",
+    "phone": "611-434-1835",
+    "ssn": "357-76-0958",
+    "cars": [
+      {
+        "_id": {
+          "$oid": "65654ffffc13ae11884cd3ed"
+        },
+        "make": "Mercedes-Benz",
+        "model": "SL-Class",
+        "year": 1903,
+        "price": 17794,
+        "mileage": 2288602,
+        "reportUrl": "http://jalbum.net/in/lectus.jpg",
+        "location": "Pakxong"
+      },
+      {
+        "_id": {
+          "$oid": "65654ffffc13ae11884cd3ee"
+        },
+        "make": "Mitsubishi",
+        "model": "Endeavor",
+        "year": 2009,
+        "price": 3090,
+        "mileage": 2613346,
+        "reportUrl": "http://cnn.com/morbi/quis.json",
+        "location": "Piedrancha"
+      },
+      {
+        "_id": {
+          "$oid": "65654ffffc13ae11884cd3ef"
+        },
+        "make": "Chevrolet",
+        "model": "Venture",
+        "year": 2019,
+        "price": 17634,
+        "mileage": 1878522,
+        "reportUrl": "https://webs.com/sit/amet/nulla/quisque/arcu.jsp",
+        "location": "Gisiliba"
+      }
+    ]
+  },
+  /** 
+  * cusomter that marked 2 cars
+  */
+  {
+    "_id": {
+      "$oid": "6565547eb07517ebddaa4995"
+    },
+    "username": "admin",
+    "password": "admin",
+    "email": "admin@admin",
+    "phone": "1231234325",
+    "marked_cars": [
+      {
+        "car_id": {
+          "$oid": "65654ffffc13ae11884cd3ee"
+        }
+      },
+      {
+        "car_id": {
+          "$oid": "65654ffffc13ae11884cd3ed"
+        }
+      }
+    ]
+  },
+  /** 
+  * appointments that contains the id of customer and seller
+  * and the date they schedule to meet 
+  */
+  {
+    "_id": {
+      "$oid": "65658af3e6173c1ec0a95683"
+    },
+    "customer_id": {
+      "$oid": "6565547eb07517ebddaa4995"
+    },
+    "seller_id": {
+      "$oid": "65654ffffc13ae11884cd3ec"
+    },
+    "date": "2023-11-01",
+    "car_id": {
+      "$oid": "65654ffffc13ae11884cd3ed"
+    },
+    "sellerUsername": "ehazlewood3"
+  }
+
+]
