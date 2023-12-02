@@ -11,7 +11,7 @@ npm start
 username: admin  
 password: admin  
 
-##For more detail of project:  
+## For more details of the project:  
 https://github.com/Gloaming02/Used-Car-Trading-System  
   
 ## Description  
