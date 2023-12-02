@@ -11,6 +11,9 @@ npm start
 username: admin  
 password: admin  
 
+##For more detail of project:  
+https://github.com/Gloaming02/Used-Car-Trading-System  
+  
 ## Description  
 This project will modify the database from my previous project (https://github.com/Gloaming02/Used-Car-Trading-System) to a document based database (Mongo).
 
