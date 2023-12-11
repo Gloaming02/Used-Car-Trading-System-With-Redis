@@ -25,6 +25,7 @@ https://github.com/Gloaming02/Used-Car-Trading-System
   
 # Description  
 This project will modify the database from my previous project (https://github.com/Gloaming02/Used-Car-Trading-System) to a document-based database (Mongo).
+Also, add the new Feature with Redis
 
 ## UML
 ![Project 1 UML](https://github.com/Gloaming02/Used-Car-Trading-System/assets/91642985/ba438bc9-706d-4e35-960d-4a3c50cd24be)
