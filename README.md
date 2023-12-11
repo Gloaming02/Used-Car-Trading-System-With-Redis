@@ -1,4 +1,13 @@
-# Used Car Trading System with MongDB
+# new Feature
+New Functionalities to be used as an in-memory key-value storage:
+A shopping cart
+To implement the shopping cart I will use a Redis set with the key "Cart:userId", car ids as the values, and a score of the number of cars they want)
+
+![截屏2023-12-10 下午5 32 05](https://github.com/Gloaming02/Used-Car-Trading-System-With-Redis/assets/91642985/135569a9-41f4-4f4c-9a69-809fe1f03733)
+![截屏2023-12-10 下午5 32 48](https://github.com/Gloaming02/Used-Car-Trading-System-With-Redis/assets/91642985/7661daf4-96d8-4ff7-9b0d-84f305f9d910)
+
+
+# Used Car Trading System with MongDB and Redis
 
 ## Initialize the database
 mongorestore --uri "mongodb://localhost:27017" --db UsedCarSystem --drop db/UsedCarSystem
