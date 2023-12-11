@@ -1,4 +1,4 @@
-# new Feature
+# New Feature
 New Functionalities to be used as an in-memory key-value storage:  
 A shopping cart  
 To implement the shopping cart I will use a Redis set with the key "Cart:userId", car ids as the values, and a score of the number of cars they want)
