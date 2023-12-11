@@ -5,7 +5,8 @@ const { getCars, insertUser, insertCar,
   getCarsById, deleteCar, makeAppointment,
   searchCarsByCriteria, markCarInDatabase,
   removeMarkFromDatabase, getMarkedCarsByUser,
-  getAppointmentByUser} = require("../db/dbConnector_MongoDb.js");
+  getAppointmentByUser, addToShoppingCartRedis,
+  getShoppingCartInRedis, removeCarFromCartRedis} = require("../db/dbConnector_MongoDb.js");
 
 
 /* GET home page. */
@@ -19,8 +20,6 @@ router.get('/', async function(req, res, next) {
   const isUserLoggedIn = checkIfUserLoggedIn(req);
   res.render("index", { title: "Used Car Trading System", cars, isUserLoggedIn });
 });
-
-// other routes...
 
 
 /* GET appointment page. */
@@ -53,9 +52,6 @@ router.post('/appointment', async function(req, res, next) {
 });
 
 
-
-/* GET register page. */
-/* GET register page. */
 /* GET register page. */
 router.get('/register', function(req, res, next) {
   const errorMessage = '';
@@ -154,15 +150,13 @@ router.get('/deletecar', async function(req, res, next) {
 
   console.log(carId);
   try {
-    // 在这里执行删除操作
-    await deleteCar(carId); // 可能需要实现 `deleteCar` 函数
+    await deleteCar(carId); 
 
     res.send(
       '<script>alert("Car deleted successfully!");' +
       'window.location.href="/managecar";</script>'
     );
   } catch (error) {
-    // 处理删除错误，可能需要渲染错误页面或显示错误消息
     res.status(500).send(
       '<script>alert("Error deleting the car. Please try again.");' +
       'window.location.href="/managecar";</script>'
@@ -197,6 +191,24 @@ router.post('/markcar', async function(req, res, next) {
   }
 });
 
+router.post('/addtocart', async function(req, res, next) {
+  const { carId } = req.body;
+
+  if (checkIfUserLoggedIn(req)) {
+      // 在这里执行添加到购物车的操作，可以使用 Redis 存储购物车信息
+      try {
+          await addToShoppingCartRedis(req.session.userId, carId);
+          res.json({ message: 'Car added to the shopping cart successfully!' });
+      } catch (error) {
+          console.error(error.message);
+          res.status(500).json({ error: 'Error adding the car to the shopping cart.' });
+      }
+  } else {
+    res.type('html');
+    res.send('<script>alert("Please log in to continue.");window.location.href="/login";</script>');
+  }
+});
+
 /* GET marked cars page. */
 router.get('/markedcars', async function(req, res, next) {
   if (!checkIfUserLoggedIn(req)) {
@@ -205,6 +217,16 @@ router.get('/markedcars', async function(req, res, next) {
   const markedCars = await getMarkedCarsByUser(req.session.userId); 
   const isUserLoggedIn = checkIfUserLoggedIn(req);
   res.render('markedcars', { title: 'Marked Cars', markedCars, isUserLoggedIn });
+});
+
+/* GET shopping cart page. */
+router.get('/shoppingcart', async function(req, res, next) {
+  if (!checkIfUserLoggedIn(req)) {
+    return res.redirect('/login');
+  }
+  const shopping = await getShoppingCartInRedis(req.session.userId); 
+  const isUserLoggedIn = checkIfUserLoggedIn(req);
+  res.render('shoppingcart', { title: 'Shopping Cart', shopping, isUserLoggedIn });
 });
 
 /* GET view appointment cars page. */
@@ -229,6 +251,18 @@ router.post('/unmarkcar', async (req, res) => {
     res.status(500).json({ error: 'Error removing the mark.' });
   }
 
+});
+
+router.post('/remove_in_cart', async (req, res) => {
+  const { car_id } = req.body;
+  const customer_id = req.session.userId;
+
+  try {
+    await removeCarFromCartRedis(customer_id, car_id);
+    res.redirect('/shoppingcart');
+  } catch (error) {
+    res.status(500).json({ error: 'Error removing the cart.' });
+  }
 });
 
 

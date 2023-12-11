@@ -1,6 +1,68 @@
 const { MongoClient, ObjectId} = require('mongodb');
+const { createClient } = require("redis");
 
 const uri = 'mongodb://localhost:27017'; 
+let redisClient = null;
+
+
+async function addToShoppingCartRedis(userId, carId) {
+  try {
+    redisClient = await createClient()
+      .on("error", (err) => console.log("Redis Client connection error " + err))
+      .connect();  
+    const cartKey = `cart:${userId}`;
+    await redisClient.hIncrBy(cartKey, carId, 1);
+    
+  } catch (error) {
+    console.error("Error removing the cart:", error);
+    throw error; 
+  } finally {
+    if (redisClient) {
+      await redisClient.disconnect();
+    }
+  }
+}
+
+async function getShoppingCartInRedis(userId) {
+  try {
+    console.log(userId)
+    redisClient = await createClient()
+    .on("error", (err) => console.log("Redis Client connection error " + err))
+    .connect();  
+
+    const cartKey = `cart:${userId}`;
+    const result = await redisClient.hGetAll(cartKey)
+    return Object.entries(result).map(([key, value]) => ({ key, value }));
+  } finally {
+    if (redisClient) {
+      await redisClient.disconnect();
+    }
+  }
+}
+
+
+async function removeCarFromCartRedis(userId, carId) {
+  try {
+    redisClient = await createClient()
+      .on("error", (err) => console.log("Redis Client connection error " + err))
+      .connect();  
+    const cartKey = `cart:${userId}`;
+    await redisClient.hIncrBy(cartKey, carId, -1);
+    const updateSet = await redisClient.hGet(cartKey, carId);
+    if (parseInt(updateSet) <= 0) {
+      await redisClient.hDel(cartKey, carId);
+    }
+  } catch (error) {
+    console.error("Error removing the cart:", error);
+    throw error; 
+  }finally {
+    if (redisClient) {
+      await redisClient.disconnect();
+    }
+  }
+}
+
+
 
 async function getCars() {
     const client = new MongoClient(uri);
@@ -75,7 +137,6 @@ async function getSellerByUsername(username) {
 
 
 async function insertUser(username, password, email, phone, userType, ssn) {
-
     const client = new MongoClient(uri);
     try {
         await client.connect();
@@ -534,7 +595,10 @@ module.exports = {
     markCarInDatabase,
     removeMarkFromDatabase,
     getMarkedCarsByUser,
-    getAppointmentByUser
+    getAppointmentByUser,
+    addToShoppingCartRedis,
+    getShoppingCartInRedis,
+    removeCarFromCartRedis
 };
 
 
