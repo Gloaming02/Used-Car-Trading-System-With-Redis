@@ -1,6 +1,6 @@
 # new Feature
-New Functionalities to be used as an in-memory key-value storage:
-A shopping cart
+New Functionalities to be used as an in-memory key-value storage:  
+A shopping cart  
 To implement the shopping cart I will use a Redis set with the key "Cart:userId", car ids as the values, and a score of the number of cars they want)
 
 ![截屏2023-12-10 下午5 32 05](https://github.com/Gloaming02/Used-Car-Trading-System-With-Redis/assets/91642985/135569a9-41f4-4f4c-9a69-809fe1f03733)
